@@ -42,7 +42,7 @@ snakemake -p --use-conda --resource mem_mb=64000 -s Snakefile_snplord
 Output files will be present in four subdirectories of 'data'
 1. snippyout
 
-   This contains folders for each of your samples aligned to the reference genome  
+   This contains folders for each of your samples aligned to the reference genome,  
 2. core
 
    This contains the outputs from snippy-core including full and core alignments. You may wish to use the 'core.aln' file to generate a    tree, however this workflow takes the full alignment 'full.core.aln' and runs it through recombination filtering with Gubbins before    identifying SNPs and inferring the tree.  
@@ -51,7 +51,7 @@ Output files will be present in four subdirectories of 'data'
    This folder contains all the output of the Gubbins analysis.  
 4. fasttree
 
-   This folder contains the final recombination filtered SNP tree  
+   This folder contains the final recombination filtered SNP tree,  
    
 ## Acknowledgments
 I'd like to thank Max Cummins (github.com/maxlcummins) for his help with creating this pipeline. I'd also like to acknowledge Torsten Seemann (github.com/tseemann) and the sanger-pathogens group (github.com/sanger-pathogens) for developing programs used in this pipeline.
