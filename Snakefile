@@ -4,13 +4,15 @@ configfile:
 sample_ids, = glob_wildcards(config['reads']+"/{sample}.R1.fastq.gz")
 REF, = glob_wildcards(config['ref']+"/{reference}.fa")
 
+
 print(sample_ids,)
 print(REF,)
 
 rule all:
 	input:
-		expand(config['reads']+"/{reference}/{sample}.out", sample=sample_ids, reference=REF),		
-		expand(config['reads']+"/core/fasttree/{reference}.clean.fullcore.tree", reference=REF)
+		expand("data/output/snippyout/{reference}.{sample}.out", sample=sample_ids, reference=REF),		
+		expand("data/output/fasttree/{reference}.clean.fullcore.tree", reference=REF),
+		expand("data/output/snp_dists/{reference}.pairwise_snps.csv", reference=REF)		
 
 rule snippy_run:
 	input:
@@ -18,7 +20,7 @@ rule snippy_run:
 		r1 = config['reads']+"/{sample}.R1.fastq.gz",
 		r2 = config['reads']+"/{sample}.R2.fastq.gz"
 	output: 
-		directory(config['reads']+"/{reference}/{sample}.out")
+		directory("data/output/snippyout/{reference}.{sample}.out")
 	conda: 
 		"config_files/snippy.yaml"
 	shell: 
@@ -29,17 +31,17 @@ rule snippy_core:
 	input:
 		ref = config['ref']+"/{reference}.fa",	
 	output:	
-		config['reads']+"/core/{reference}.full.aln"
+		"data/output/core/{reference}.full.aln"
 	conda:
 		"config_files/snippy.yaml"
 	shell:
-		"snippy-core --prefix data/reads/core/{wildcards.reference} --ref {input.ref} data/reads/{wildcards.reference}/*.out"
+		"snippy-core --prefix data/output/core/{wildcards.reference} --ref {input.ref} data/output/snippyout/*.out"
 
 rule snippy_clean:
 	input:
-		config['reads']+"/core/{reference}.full.aln"
+		"data/output/core/{reference}.full.aln"
 	output:
-		config['reads']+"/core/{reference}.clean.full.aln"
+		"data/output/core/{reference}.clean.full.aln"
 	conda: 
 		"config_files/snippy.yaml"	
 	shell:
@@ -47,11 +49,11 @@ rule snippy_clean:
 
 rule gubbarnt:
 	input:
-		config['reads']+"/core/{reference}.clean.full.aln"
+		"data/output/core/{reference}.clean.full.aln"
 	output:
-		config['reads']+"/core/gubbins/gubbins.{reference}.filtered_polymorphic_sites.fasta"
+		"data/output/gubbins/gubbins.{reference}.filtered_polymorphic_sites.fasta"
 	params:
-		prefix = "data/reads/core/gubbins/gubbins.{reference}"
+		prefix = "data/output/gubbins/gubbins.{reference}"
 	conda:
 		"config_files/gubbins.yaml"
 	shell:
@@ -61,19 +63,29 @@ rule gubbarnt:
 		"""
 rule snp_sites:
 	input:
-		config['reads']+"/core/gubbins/gubbins.{reference}.filtered_polymorphic_sites.fasta"
+		"data/output/gubbins/gubbins.{reference}.filtered_polymorphic_sites.fasta"
 	output:
-		config['reads']+"/core/snp_sites/{reference}.clean.fullcore.aln"
+		"data/output/snp_sites/{reference}.clean.fullcore.aln"
 	conda: 
 		"config_files/snippy.yaml"
 	shell:
 		"snp-sites -c {input} > {output}"
 
+rule snp_dists:
+	input:
+		"data/output/snp_sites/{reference}.clean.fullcore.aln"
+	output:
+		"data/output/snp_dists/{reference}.pairwise_snps.csv"
+	conda: 
+		"config_files/snp_dists.yaml"
+	shell: 
+		"snp-dists -c {input} > {output}"
+
 rule fasttree:
 	input:
-		config['reads']+"/core/snp_sites/{reference}.clean.fullcore.aln"
+		"data/output/snp_sites/{reference}.clean.fullcore.aln"
 	output:
-		config['reads']+"/core/fasttree/{reference}.clean.fullcore.tree"
+		"data/output/fasttree/{reference}.clean.fullcore.tree"
 	conda:
 		"config_files/fasttree.yaml"
 	shell:
