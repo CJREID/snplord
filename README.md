@@ -12,7 +12,7 @@ conda create -n snakemake -c bioconda snakemake
 ```
 Clone the snplord repository into your home or data directory and enter this directory, this will be your working directory for analysis
 ```
-git clone git@github.com:CJREID/snplord.git
+git clone https://github.com/CJREID/snplord.git
 cd snplord
 ```
 Next you will need to create a directory called 'data' with two subdirectories called 'reads' and 'ref'
