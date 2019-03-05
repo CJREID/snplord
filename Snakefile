@@ -1,9 +1,8 @@
 configfile:
-	"config_files/snake-snippy.config.json"
+	"config_files/snake-snippy.config.yaml"
 
 sample_ids, = glob_wildcards(config['reads']+"/{sample}.R1.fastq.gz")
 REF, = glob_wildcards(config['ref']+"/{reference}.fa")
-
 
 print(sample_ids,)
 print(REF,)
@@ -53,12 +52,13 @@ rule gubbarnt:
 	output:
 		"data/output/gubbins/gubbins.{reference}.filtered_polymorphic_sites.fasta"
 	params:
-		prefix = "data/output/gubbins/gubbins.{reference}"
+		prefix = "data/output/gubbins/gubbins.{reference}",
+		filt = config["gubbins"]["params"]
 	conda:
 		"config_files/gubbins.yaml"
 	shell:
 		"""
-		run_gubbins.py -v -p {params.prefix} {input}
+		run_gubbins.py -v -p {params.filt} {params.prefix} {input}
 		rm {wildcards.reference}.clean.full.aln.seq.joint.txt
 		"""
 rule snp_sites:

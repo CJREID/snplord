@@ -1,0 +1,14 @@
+##Configuration file for snippy_snakemake
+#Path to read directory
+reads: /home/cjreid/Data/salad_ecoli/reads/all
+#Path to reference fasta file
+ref: ref
+#Gubbins params
+gubbins:
+ params: -f 25
+
+
+
+
+    
+
