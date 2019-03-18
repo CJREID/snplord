@@ -17,7 +17,7 @@ cd snplord
 ```
 
 ## Prepare input files
-Next you will need to edit the config file (config_files/snake-snipppy.config.yaml) so snplord knows where to look for input files. The simplest way to do this is to put all your reads and your reference genome in one folder with no subdirectories and add this path to the config file. The reference genome must be in fasta format with suffix .fa (NOT .fasta)
+Next you will need to edit the config file (config_files/snake-snipppy.config.yaml) so snplord knows where to look for input files. The simplest way to do this is to put all your reads in one folder with no subdirectories and add this path to the config file. Put the reference genome in the ref folder or add the path to the enclosing folder to the config file 'ref:' The reference genome must be in fasta format with suffix .fa (NOT .fasta)
 
 ## Running snplord
 Return to the snplord directory and activate your snakemake environment
@@ -32,6 +32,12 @@ If you have no errors then run
 ```
 snakemake -p --use-conda --resource mem_mb=64000
 ```
+
+If you are running on ARClab use `nohup` to run the computation in the background and pipe your standard output and error output to appropriately named text files like so:
+```
+nohup snakemake -p --use-conda --resource mem_mb=64000 >snplord.DDMMYY.out >>snplord.DDMMYY.err &
+```
+Don't forget the ampersand at the end of the line.
 
 ## Output
 Output files will be present in five subdirectories of 'data/output'
