@@ -1,10 +1,15 @@
 ##Configuration file for snippy_snakemake
 #Path to read directory
-reads: /scratch/cajreid/ST58/reads_13-02-20
+reads: /home/cajreid/Data/salad_ecoli/reads/all_salad
+#specify the file extension that comes after your sample names (e.g _R1.fastq.gz, .r2.fastq.gz, _R2_fastq.gz etc)
+R1_suffix: _R1.fastq.gz
+R2_suffix: _R2.fastq.gz
 #Path to output
-output: /scratch/cajreid/ST58/snippy
+output: /home/cajreid/Data/salad_ecoli/snakemake_dummy_out
 #Path to reference fasta file. This can be the same as your reads folder or just a folder called 'ref' in your snplord folder.
-ref: /scratch/cajreid/ST58/snippy/ref
+ref: /home/cajreid/Data/salad_ecoli/reads/ref
+#specify the file extension of you reference (e.g .fasta, .fa or .fsa)
+ref_suffix: .fa
 #Gubbins params
 gubbins:
  params: -f 25

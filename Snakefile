@@ -1,13 +1,15 @@
 configfile:
 	"config_files/config.yaml"
 
-sample_ids, = glob_wildcards(config['reads']+"/{sample}.R1.fastq.gz")
-REF, = glob_wildcards(config['ref']+"/{reference}.fa")
+R1_suff = config['R1_suffix']
+R2_suff = config['R2_suffix']
+ref_suff = config['ref_suffix']
+sample_ids, = glob_wildcards(config["reads"]+"/{sample}"+R1_suff)
+REF, = glob_wildcards(config['ref']+"/{reference}"+ref_suff)
 outputdir = config['output']
 
 print(sample_ids,)
 print(REF,)
-
 
 rule all:
 	input:
@@ -18,8 +20,8 @@ rule all:
 rule snippy_run:
 	input:
 		ref = config['ref']+"/{reference}.fa",
-		r1 = config['reads']+"/{sample}.R1.fastq.gz",
-		r2 = config['reads']+"/{sample}.R2.fastq.gz"
+		r1 = config['reads']+"/{sample}"+R1_suff,
+		r2 = config['reads']+"/{sample}"+R2_suff
 	output: 
 		directory("{output}/snippyout/{reference}/{sample}.out")
 	conda: 
