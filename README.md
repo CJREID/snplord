@@ -64,7 +64,7 @@ nohup snakemake -p --use-conda --resource mem_mb=64000 >snplord.DDMMYY.out >>snp
 Don't forget the ampersand at the end of the line.
 
 ## Output
-Output files will be present in five subdirectories of 'data/output'
+Output files will be present in six subdirectories of your specified output folder.
 1. **snippyout**
 
    This contains folders for each of your samples aligned to the reference genome.  
