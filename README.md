@@ -33,12 +33,12 @@ Conversely, if you are working with a clonal collection such as *E. coli* of the
 
 If you have a very large collection of clonal sequences and are feeling patient, you may wish to attempt to optimise thread and memory usage and run the full pipeline with Gubbins. You can adjust the RAM requirements for Gubbins in the config file. Alternatively, you can try your luck without Gubbins and hope your reviewer isn't a hardcore phylogenomics wizard or consult said hardcore phylogenomics wizard for some sage advice.
 
-# With Gubbins
+### With Gubbins
 You may wish to use the `--restart-times` argument to snakemake in case Gubbins fails due to a temporary lack of sufficient memory. Or just set RAM as high as possible in the config file.
 ```
 snakemake -p --use-conda -s Snakefile
 ```
-# Without Gubbins
+### Without Gubbins
 ```
 snakemake -p --use-conda -s Snakefile_no_gubbins
 ```
