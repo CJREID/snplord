@@ -1,0 +1,50 @@
+configfile:
+	"config_files/config.yaml"
+
+sample_ids, = glob_wildcards(config['reads']+"/{sample}.R1.fastq.gz")
+REF, = glob_wildcards(config['ref']+"/{reference}.fa")
+output_pre = re.sub('.*\/(.*)','\\1_output',config['reads'])
+out = config['output']
+
+print(sample_ids,)
+print(REF,)
+print(out)
+
+rule all:
+	input:
+		expand("{output}/snippyout/{reference}/{sample}.out", sample=sample_ids, reference=REF, output = out),		
+		expand("{output}/core/{reference}.full.aln", reference=REF, output = out)		
+
+rule snippy_run:
+	input:
+		ref = config['ref']+"/{reference}.fa",
+		r1 = config['reads']+"/{sample}.R1.fastq.gz",
+		r2 = config['reads']+"/{sample}.R2.fastq.gz"
+	output: 
+		directory("{output}/snippyout/{reference}/{sample}.out")
+	conda: 
+		"config_files/snippy.yaml"
+	shell: 
+		"snippy --cpus 38 --outdir {output} --ref {input.ref} --R1 {input.r1} --R2 {input.r2}"
+
+
+rule snippy_core:
+	input:
+		ref = config['ref']+"/{reference}.fa",	
+	output:	
+		"{output}/core/{reference}.full.aln"
+	params:
+		out = config['output']
+	conda:
+		"config_files/snippy.yaml"
+	shell:
+		"""
+		snippy-core --prefix {params.out}/core/{wildcards.reference} --ref {input.ref} {params.out}/snippyout/{wildcards.reference}/*.out
+		"""
+	
+
+
+
+
+
+
