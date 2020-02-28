@@ -1,12 +1,14 @@
 ##Configuration file for snippy_snakemake
 #Path to read directory
-reads: /path/to/your/reads/folder
+reads: /scratch/cajreid/ST58/reads_13-02-20
+#Path to output
+output: /scratch/cajreid/ST58/snippy
 #Path to reference fasta file. This can be the same as your reads folder or just a folder called 'ref' in your snplord folder.
-ref: ref
+ref: /scratch/cajreid/ST58/snippy/ref
 #Gubbins params
 gubbins:
  params: -f 25
-
+ memory: 500
 
 
 
