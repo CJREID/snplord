@@ -19,7 +19,7 @@ rule all:
 
 rule snippy_run:
 	input:
-		ref = config['ref']+"/{reference}.fa",
+		ref = config['ref']+"/{reference}"+ref_suff,
 		r1 = config['reads']+"/{sample}"+R1_suff,
 		r2 = config['reads']+"/{sample}"+R2_suff
 	output: 
@@ -34,7 +34,7 @@ rule snippy_run:
 
 rule snippy_core:
 	input:
-		ref = config['ref']+"/{reference}.fa",	
+		ref = config['ref']+"/{reference}"+ref_suff,	
 	output:	
 		"{output}/core/{reference}.full.aln"
 	conda:
